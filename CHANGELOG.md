@@ -1,3 +1,18 @@
+# [1.0.0](https://github.com/pedrozea/demo-release/compare/v0.2.0...v1.0.0) (2023-09-05)
+
+
+### Features
+
+* **azure:** Adding action to display existing Azure Resource Groups ([f26296d](https://github.com/pedrozea/demo-release/commit/f26296db3ca068e1d0f8c645416727712d018ad3))
+* **azure:** Adding tasks for Azure Deployment ([f4d894e](https://github.com/pedrozea/demo-release/commit/f4d894e2263422b99d28a19975dfac426bc2e89c))
+
+
+### BREAKING CHANGES
+
+* **azure:** Added new step to Log into Azure
+
+
+
 # [0.2.0](https://github.com/pedrozea/demo-release/compare/v0.1.0...v0.2.0) (2023-09-05)
 
 
