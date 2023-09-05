@@ -1,0 +1,79 @@
+name: Deploy to Azure using Bicep
+
+on:
+    push:
+        branches:
+          - main
+    pull_request:
+        branches:
+          - main 
+    workflow_dispatch:
+
+permissions:
+    id-token: write
+    contents: write
+
+jobs:
+    create-release:
+        name: "Create release"
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+        outputs:
+            tag: ${{ steps.changelog.outputs.tag }}
+            changelog: ${{ steps.changelog.outputs.changelog }}
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Generate changelog
+          id: changelog 
+          uses: TriPSs/conventional-changelog-action@v3
+          with:
+            github-token: "${{ secrets.GITHUB_TOKEN }}"
+        - name: Create Release
+          uses: softprops/action-gh-release@v0.1.15
+          if: ${{ steps.changelog.outputs.skipped == 'false' && github.ref == 'refs/heads/main'}} 
+          env: 
+            GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          with: 
+            tag_name: ${{ steps.changelog.outputs.tag }} 
+            body: ${{ steps.changelog.outputs.changelog }} 
+
+    # deploy:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #     # Log into Azure
+    #     - name: Login to Azure  
+    #       uses: azure/login@v1
+    #       with:
+    #         client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    #         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    #         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+
+    #     # Run az commands
+    #     - name: 'Run az commands'
+    #       run: az group list
+       
+    
+    # - name: Preview Changes from Bicep
+    #   uses: Azure/deployment-what-if-action@v1.0.0
+    #   with:
+    #     subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
+    #     resourceGroup: ${{ secrets.AZURE_RG }} 
+    #     templateFile: deployment/main.bicep
+
+    # - name: Install and build Bicep
+    #   run: |
+    #     # Instala Bicep CLI
+    #     curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+    #     chmod +x ./bicep
+    #     sudo mv ./bicep /usr/local/bin/bicep
+    #     bicep --version
+
+    #     # Compila los archivos Bicep a ARM Templates
+    #     bicep build main.bicep
+
+    # - name: Deploy to Azure
+    #   run: |
+    #     az deployment group create --resource-group ResourceGroupName --template-file main.json
