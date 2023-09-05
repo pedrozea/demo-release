@@ -70,9 +70,9 @@ jobs:
             tenant-id: ${{ secrets.AZURE_TENANT_ID }}
             subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }} 
 
-        # # Run az commands
-        # - name: 'Run az commands'
-        #   run: az group list
+        # Run az commands
+        - name: 'Run az commands'
+          run: az group list
        
     
     # - name: Preview Changes from Bicep
