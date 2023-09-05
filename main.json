@@ -1,0 +1,158 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.20.4.51522",
+      "templateHash": "18317634082446133614"
+    }
+  },
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus"
+    },
+    "namePrefix": {
+      "type": "string",
+      "defaultValue": "pz1"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "aspDeploy",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "namePrefix": {
+            "value": "[format('{0}ASP', parameters('namePrefix'))]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.20.4.51522",
+              "templateHash": "4467558836055482352"
+            }
+          },
+          "parameters": {
+            "namePrefix": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "sku": {
+              "type": "string",
+              "defaultValue": "F1"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Web/serverfarms",
+              "apiVersion": "2022-09-01",
+              "name": "[parameters('namePrefix')]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "[parameters('sku')]"
+              }
+            }
+          ],
+          "outputs": {
+            "aspID": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Web/serverfarms', parameters('namePrefix'))]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "appSvcDeploy",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "aspId": {
+            "value": "[reference(resourceId('Microsoft.Resources/deployments', 'aspDeploy'), '2022-09-01').outputs.aspID.value]"
+          },
+          "namePrefix": {
+            "value": "[format('{0}webapp', parameters('namePrefix'))]"
+          },
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.20.4.51522",
+              "templateHash": "11911317264145423475"
+            }
+          },
+          "parameters": {
+            "namePrefix": {
+              "type": "string"
+            },
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "aspId": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Web/sites",
+              "apiVersion": "2022-09-01",
+              "name": "[parameters('namePrefix')]",
+              "location": "[parameters('location')]",
+              "tags": {
+                "environment": "[format('dev-{0}', resourceGroup().name)]",
+                "source": "deployment with modules"
+              },
+              "properties": {
+                "serverFarmId": "[parameters('aspId')]"
+              }
+            }
+          ],
+          "outputs": {
+            "siteUrl": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Web/sites', parameters('namePrefix')), '2022-09-01').hostNames[0]]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'aspDeploy')]"
+      ]
+    }
+  ],
+  "outputs": {
+    "siteURL": {
+      "type": "string",
+      "value": "[reference(resourceId('Microsoft.Resources/deployments', 'appSvcDeploy'), '2022-09-01').outputs.siteUrl.value]"
+    }
+  }
+}
