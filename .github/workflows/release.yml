@@ -38,6 +38,7 @@ jobs:
         - name: Compile Bicep file
           run: az bicep build --file main.bicep
         
+        # Generate changelog
         - name: Generate changelog
           id: changelog 
           uses: TriPSs/conventional-changelog-action@v4
