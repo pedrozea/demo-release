@@ -28,7 +28,7 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v3
 
-        # Install Azure CLI if it is not present
+        # Install Azure CLI
         - name: Install Azure CLI
           run: |
             sudo apt-get update
