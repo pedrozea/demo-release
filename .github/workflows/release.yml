@@ -45,6 +45,7 @@ jobs:
           with:
             github-token: "${{ secrets.GITHUB_TOKEN }}"
             
+        # Create Release and Attach Build Assets
         - name: Create Release and Attach Build Assets
           if: ${{ steps.changelog.outputs.skipped == 'false' && github.ref == 'refs/heads/main'}} 
           uses: softprops/action-gh-release@v0.1.15
