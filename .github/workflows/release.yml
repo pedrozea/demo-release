@@ -50,11 +50,11 @@ jobs:
           uses: advanced-security/generate-sbom-action@v1
           id: gensbom
 
-        # # Rename SBOM file to include tag version
-        # - name: Rename SBOM to Include Tag and Organization + Repository Name
-        #   run: |
-        #     FORMATTED_REPO_NAME=${GITHUB_REPOSITORY//\//-}
-        #     mv ${{ steps.gensbom.outputs.fileName }} sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json
+        # Rename SBOM file to include tag version
+        - name: Rename SBOM to Include Tag and Organization + Repository Name
+          run: |
+            FORMATTED_REPO_NAME=${GITHUB_REPOSITORY//\//-}
+            mv ${{ steps.gensbom.outputs.fileName }} sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json
         
         # Create Release and Attach Build Assets
         - name: Create Release and Attach Build Assets
