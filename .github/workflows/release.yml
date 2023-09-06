@@ -37,6 +37,11 @@ jobs:
         # Compile Bicep file to an ARM template in JSON
         - name: Compile Bicep file
           run: az bicep build --file main.bicep
+
+        # Generate SBOM
+        - name: Generate SBOM
+          uses: advanced-security/generate-sbom-action@v1
+          id: gensbom
         
         # Generate changelog
         - name: Generate changelog
@@ -44,7 +49,7 @@ jobs:
           uses: TriPSs/conventional-changelog-action@v4
           with:
             github-token: "${{ secrets.GITHUB_TOKEN }}"
-            
+        
         # Create Release and Attach Build Assets
         - name: Create Release and Attach Build Assets
           if: ${{ steps.changelog.outputs.skipped == 'false' && github.ref == 'refs/heads/main'}} 
@@ -58,6 +63,7 @@ jobs:
             files: |
                 main.bicep
                 main.json
+                ${{ steps.gensbom.outputs.fileName }}
 
     deploy:
         runs-on: ubuntu-latest
