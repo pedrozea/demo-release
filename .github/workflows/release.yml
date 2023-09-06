@@ -69,7 +69,7 @@ jobs:
             files: |
                 main.bicep
                 main.json
-                ${{ steps.gensbom.outputs.fileName }}
+                sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json
 
     deploy:
         runs-on: ubuntu-latest
