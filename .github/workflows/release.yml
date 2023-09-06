@@ -52,9 +52,12 @@ jobs:
 
         # Rename SBOM file to include tag version
         - name: Rename SBOM to Include Tag and Organization + Repository Name
+          id: rename-sbom
           run: |
             FORMATTED_REPO_NAME=${GITHUB_REPOSITORY//\//-}
-            mv ${{ steps.gensbom.outputs.fileName }} sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json
+            NEW_FILE_NAME="sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json"
+            mv ${{ steps.gensbom.outputs.fileName }} $NEW_FILE_NAME
+            run: echo "SBOMFile=$(echo $NEW_FILE_NAME)" >> $GITHUB_OUTPUT
         
         # Create Release and Attach Build Assets
         - name: Create Release and Attach Build Assets
@@ -69,7 +72,7 @@ jobs:
             files: |
                 main.bicep
                 main.json
-                sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json
+                ${{ steps.rename-sbom.outputs.SBOMFile }}
 
     deploy:
         runs-on: ubuntu-latest
