@@ -38,17 +38,23 @@ jobs:
         - name: Compile Bicep file
           run: az bicep build --file main.bicep
 
-        # Generate SBOM
-        - name: Generate SBOM
-          uses: advanced-security/generate-sbom-action@v1
-          id: gensbom
-        
         # Generate changelog
         - name: Generate changelog
           id: changelog 
           uses: TriPSs/conventional-changelog-action@v4
           with:
             github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+        # Generate SBOM
+        - name: Generate SBOM
+          uses: advanced-security/generate-sbom-action@v1
+          id: gensbom
+
+        # # Rename SBOM file to include tag version
+        # - name: Rename SBOM to Include Tag and Organization + Repository Name
+        #   run: |
+        #     FORMATTED_REPO_NAME=${GITHUB_REPOSITORY//\//-}
+        #     mv ${{ steps.gensbom.outputs.fileName }} sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json
         
         # Create Release and Attach Build Assets
         - name: Create Release and Attach Build Assets
