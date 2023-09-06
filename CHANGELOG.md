@@ -1,3 +1,17 @@
+# [2.1.0](https://github.com/pedrozea/demo-release/compare/v2.0.0...v2.1.0) (2023-09-06)
+
+
+### Bug Fixes
+
+* **github-actions:** Reorder Workflow Steps for Improved Sequencing ([f94b5b6](https://github.com/pedrozea/demo-release/commit/f94b5b615c09096914d2de8852dc9195c1955611))
+
+
+### Features
+
+* **github-actions:** Introduce Option for Naming SBOM Files Following Standardized Naming Convention ([16bf2db](https://github.com/pedrozea/demo-release/commit/16bf2db1c81f93691a8c26de7b1483910e3086e5))
+
+
+
 # [2.0.0](https://github.com/pedrozea/demo-release/compare/v1.0.0...v2.0.0) (2023-09-06)
 
 
