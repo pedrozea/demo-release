@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/pedrozea/demo-release/compare/v1.0.0...v2.0.0) (2023-09-06)
+
+
+### Features
+
+* **github-actions:** Add SBOM generation functionality ([1050e7f](https://github.com/pedrozea/demo-release/commit/1050e7f11757ae0e7084d64558fba3cdd903e4a6))
+
+
+### BREAKING CHANGES
+
+* **github-actions:** Introduces a new SBOM generation feature, altering existing behavior
+
+
+
 # [1.0.0](https://github.com/pedrozea/demo-release/compare/v0.2.0...v1.0.0) (2023-09-05)
 
 
