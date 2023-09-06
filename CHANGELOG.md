@@ -1,3 +1,12 @@
+## [2.1.3](https://github.com/pedrozea/demo-release/compare/v2.1.2...v2.1.3) (2023-09-06)
+
+
+### Bug Fixes
+
+* **github-actions:** Fix SBOM File Naming Generation ([38b04a2](https://github.com/pedrozea/demo-release/commit/38b04a2071765d2dbe76804a4928b6a64b317054))
+
+
+
 ## [2.1.2](https://github.com/pedrozea/demo-release/compare/v2.1.1...v2.1.2) (2023-09-06)
 
 
@@ -41,21 +50,6 @@
 ### BREAKING CHANGES
 
 * **github-actions:** Introduces a new SBOM generation feature, altering existing behavior
-
-
-
-# [1.0.0](https://github.com/pedrozea/demo-release/compare/v0.2.0...v1.0.0) (2023-09-05)
-
-
-### Features
-
-* **azure:** Adding action to display existing Azure Resource Groups ([f26296d](https://github.com/pedrozea/demo-release/commit/f26296db3ca068e1d0f8c645416727712d018ad3))
-* **azure:** Adding tasks for Azure Deployment ([f4d894e](https://github.com/pedrozea/demo-release/commit/f4d894e2263422b99d28a19975dfac426bc2e89c))
-
-
-### BREAKING CHANGES
-
-* **azure:** Added new step to Log into Azure
 
 
 
