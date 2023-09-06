@@ -57,7 +57,7 @@ jobs:
             FORMATTED_REPO_NAME=${GITHUB_REPOSITORY//\//-}
             NEW_FILE_NAME="sbom-${FORMATTED_REPO_NAME}-${{ steps.changelog.outputs.tag }}.json"
             mv ${{ steps.gensbom.outputs.fileName }} $NEW_FILE_NAME
-            run: echo "SBOMFile=$(echo $NEW_FILE_NAME)" >> $GITHUB_OUTPUT
+            echo "SBOMFile=$(echo $NEW_FILE_NAME)" >> $GITHUB_OUTPUT
         
         # Create Release and Attach Build Assets
         - name: Create Release and Attach Build Assets
